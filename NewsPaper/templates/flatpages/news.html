@@ -1,0 +1,35 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+News
+{% endblock title %}
+
+{% block content %}
+<h1> Сегодня новости в количестве - {{ news|length }} </h1>
+    {{ next_news|default_if_none:"Не переживайте новости дополняются......" }}
+    <hr>
+    {% if news %}
+        <table>
+            <tr>
+                <td><h3>Заголовок</h3></td>
+                <td><h4>Контент</h4></td>
+                <td><h5>Рейтинг</h5></td>
+                <td><h6>Дата публикации</h6></td>
+            </tr>
+            {% for new in news %}
+            <tr>
+                <td>{{ new.title|truncatewords:3|censor }}</td>
+                <td>{{ new.content|truncatewords:20|censor }}</td>
+                <td>{{ new.rating }}</td>
+                <td>{{ new.time_date|date:'d M Y' }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h7> Новостей нет!</h7>
+    {% endif %}
+    <hr>
+{% endblock content %}
+
